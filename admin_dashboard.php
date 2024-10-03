@@ -12,11 +12,11 @@ if($_SESSION['logged_in'] == false) {
     <title>College Job Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">ACET Job Portal</a>
+        <a class="navbar-brand" href="index.php">Placement Hub</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,10 +26,10 @@ if($_SESSION['logged_in'] == false) {
             <a class="nav-link" href="#login"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="all_student_list.php">All Student List</a>
+            <a class="nav-link" href="all_student_list.php">Student List</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#company-dashboard">View Listed Company</a>
+            <a class="nav-link" href="all_company_list.php">Company List</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="logout.php">Logout</a>
@@ -67,7 +67,7 @@ if($_SESSION['logged_in'] == false) {
   </section>
   
   <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3 mt-2">
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p>&copy; 2024 College Job Portal. All rights reserved.</p>
   </footer>
   

@@ -7,7 +7,7 @@
   <title>College Job Portal</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -17,18 +17,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#login">Login</a>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="#company-dashboard">Company Dashboard</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#student-dashboard">Student Dashboard</a>
-          </li> -->
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="#admin-dashboard">Student Login</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -36,25 +36,26 @@
 
     <!-- Login Section -->
     <section id="login" class="my-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-4">
-          <h3 class="text-center mb-3">Student Login</h3>
-          <form method="POST" action="student_login_process.php">
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-          </form>
-        </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-4 shadow-lg p-4 border rounded">
+        <h3 class="text-center mb-3">Student Login</h3>
+        <form method="POST" action="student_login_process.php">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
  
 
@@ -62,7 +63,7 @@
 
   
   <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3 mt-2">
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p>&copy; 2024 College Job Portal. All rights reserved.</p>
   </footer>
 
