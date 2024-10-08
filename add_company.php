@@ -7,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $city = $_POST['city'];
     $state = $_POST['state'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = $_POST['email'];
+    $password = $_POST['mobile'];
 
     // Insert the student data into the database
     $query = "INSERT INTO all_companies_list (company_name, mobile, email, city, state, username, password) 
@@ -18,7 +18,7 @@ $stmt->bind_param('sssssss', $company_name, $mobile, $email, $city, $state, $use
 
 
     if ($stmt->execute()) {
-        echo "Student added successfully!";
+        echo "Company added successfully!";
     } else {
         echo "Error adding student.";
     }

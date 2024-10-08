@@ -6,24 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>College Job Portal</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .bg-dark1{
+      background-color: #1b3f6e;
+      color: white;
+    }
+    .btn:hover{
+      background-color: white;
+      color: #1b3f6e;
+      border: 1px solid #1b3f6e;
+    }
+   
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark1">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">ACET Job Portal</a>
+      <a class="navbar-brand" href="index.php">Placement Hub</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#login">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#company-dashboard">Roadmap</a>
+          </li>
           <!-- <li class="nav-item">
-            <a class="nav-link" href="#login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#company-dashboard">Company Dashboard</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#student-dashboard">Student Dashboard</a>
           </li>
           <li class="nav-item">
@@ -49,18 +61,12 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password">
           </div>
-          <button type="submit" class="btn btn-primary w-100">Login</button>
+          <button type="submit" class="btn w-100 bg-dark1 mt-5">Login</button>
         </form>
       </div>
     </div>
   </div>
 </section>
-
-
- 
-
-  
-
   
   <!-- Footer -->
   <footer class="bg-dark text-white text-center py-3 mt-auto">

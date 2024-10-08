@@ -23,7 +23,8 @@ $result = $conn->query($query);
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">ACET Job Portal</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -38,7 +39,7 @@ $result = $conn->query($query);
                         <a class="nav-link" href="all_student_list.php">All Student List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#company-dashboard">View Listed Company</a>
+                        <a class="nav-link" href="all_company_list.php">Company List</a>
                     </li>
                 </ul>
             </div>
@@ -50,7 +51,8 @@ $result = $conn->query($query);
 
     <div class="container mt-5">
         <h2 class="text-center">All Students List </h2>
-        <h2 class="text-center"><button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button></h2>
+        <h2 class="text-center"><button class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#addStudentModal">Add Student</button></h2>
 
         <table class="table table-bordered">
             <thead>
@@ -68,7 +70,7 @@ $result = $conn->query($query);
                 <?php
                 $srNo = 1;
                 while ($row = $result->fetch_assoc()) {
-                ?>
+                    ?>
                     <tr>
                         <td><?php echo $srNo++; ?></td>
                         <td><?php echo $row['collegeid']; ?></td>
@@ -77,10 +79,11 @@ $result = $conn->query($query);
                         <td><?php echo $row['number_of_companies_applied']; ?></td>
                         <td><?php echo $row['department']; ?></td>
                         <td>
-                            <button class="btn btn-primary view-details-btn" data-id="<?php echo $row['id']; ?>">View Details</button>
+                            <button class="btn btn-primary view-details-btn" data-id="<?php echo $row['id']; ?>">View
+                                Details</button>
                         </td>
                     </tr>
-                <?php
+                    <?php
                 }
                 ?>
             </tbody>
@@ -109,7 +112,8 @@ $result = $conn->query($query);
 
 
     <!-- Modal to Add Student -->
-    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -138,36 +142,40 @@ $result = $conn->query($query);
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="email" name="email" required>
                         </div>
-                        <div class="mb-3">
+
+                        <!-- <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="text" class="form-control" id="password" name="password" required>
-                        </div>
+                        </div> -->
 
                         <div class="mb-3">
                             <label for="department" class="form-label">Department:</label>
                             <select name="department" id="department" class="form-control" required>
                                 <option value="">--Please choose an department--</option>
                                 <option value="Science & Humanities">Science & Humanities</option>
-                                <option value="Artificial Intelligence & Data science">Artificial Intelligence & Data science</option>
+                                <option value="Artificial Intelligence & Data science">Artificial Intelligence & Data
+                                    science</option>
                                 <option value="Civil Engineering(CE)">Civil Engineering(CE)</option>
-                                <option value="Computer Science & Engineering(CS)">Computer Science & Engineering(CS)</option>
+                                <option value="Computer Science & Engineering(CS)">Computer Science & Engineering(CS)
+                                </option>
                                 <option value="Electrical Engineering(EE)">Electrical Engineering(EE)</option>
-                                <option value="Electronics and Telecommunication Engineering(ET)">Electronics and Telecommunication Engineering(ET)</option>
+                                <option value="Electronics and Telecommunication Engineering(ET)">Electronics and
+                                    Telecommunication Engineering(ET)</option>
                                 <option value="Mechanical Engineering(ME)">Mechanical Engineering(ME)</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Add Student</button>
+                        <button type="submit" id-="add-student" class="btn btn-primary w-100">Add Student</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
 
 
     <!-- Add Bootstrap and jQuery for handling modal -->
@@ -181,9 +189,9 @@ $result = $conn->query($query);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // When 'View Details' button is clicked
-            $('.view-details-btn').click(function() {
+            $('.view-details-btn').click(function () {
                 var studentId = $(this).data('id'); // Get student ID from button data attribute
 
                 // Make an AJAX request to fetch additional student details
@@ -193,7 +201,7 @@ $result = $conn->query($query);
                     data: {
                         id: studentId
                     },
-                    success: function(data) {
+                    success: function (data) {
                         // Insert student details into the modal
                         $('#student-details').html(data);
 
@@ -207,7 +215,7 @@ $result = $conn->query($query);
             });
 
             // When 'Delete Student' button is clicked
-            $('#delete-btn').click(function() {
+            $('#delete-btn').click(function () {
                 var studentId = $(this).data('id'); // Get student ID
 
                 if (confirm('Are you sure you want to delete this student?')) {
@@ -218,7 +226,7 @@ $result = $conn->query($query);
                         data: {
                             id: studentId
                         },
-                        success: function(response) {
+                        success: function (response) {
                             alert(response); // Show delete message
                             location.reload(); // Reload the page to reflect changes
                         }
@@ -226,14 +234,17 @@ $result = $conn->query($query);
                 }
             });
             // Add student form submission
-            $('#addStudentForm').submit(function(e) {
-                e.preventDefault();
+            $('#addStudentForm').submit(function (e) {
 
+                e.preventDefault();
+                // Disable the submit button
+                var submitButton = $(this).find('button[type="submit"]');
+                submitButton.prop('disabled', true);
                 $.ajax({
                     url: 'add_student.php',
                     type: 'POST',
                     data: $(this).serialize(),
-                    success: function(response) {
+                    success: function (response) {
                         alert(response); // Show success message
                         location.reload(); // Reload the page to show the new student
                     }

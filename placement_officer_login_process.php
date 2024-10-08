@@ -8,7 +8,7 @@ function get_placement_officer_credentials($username)
     global $conn; // Use the database connection from db.php
     // Prepare a SQL statement to prevent SQL injection
     // echo "inside()";
-    $stmt = $conn->prepare("SELECT username, password FROM placement_officer_list WHERE username = ?");
+    $stmt = $conn->prepare("SELECT * FROM all_companies_list WHERE username = ?");
     $stmt->bind_param('s', $username); // Bind the username parameter
     $stmt->execute();
     $result = $stmt->get_result();
@@ -36,9 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Set session for logged-in placement officer
             $_SESSION['logged_in'] = true;
             $_SESSION['username'] = $username;
-
+            $_SESSION['company_name'] = $placement_officer['company_name'];
+            
             // Redirect to the dashboard
             header('Location: placement_officer_dashboard.php');
+           
             exit;
         } else {
             // Invalid password

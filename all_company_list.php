@@ -5,6 +5,7 @@ require 'db.php'; // Your database connection file
 $query = "SELECT id, company_name, number_of_students_applied, city, username  FROM all_companies_list";
 $result = $conn->query($query);
 
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +24,8 @@ $result = $conn->query($query);
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">Placement Hub</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -38,8 +40,9 @@ $result = $conn->query($query);
                         <a class="nav-link" href="all_student_list.php">Student List</a>
                     </li>
                     <li class="nav-item">
-                        
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCompanyModal">Add New Company</button>
+
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCompanyModal">Add New
+                            Company</button>
                     </li>
                 </ul>
             </div>
@@ -67,16 +70,28 @@ $result = $conn->query($query);
                 <?php
                 $srNo = 1;
                 while ($row = $result->fetch_assoc()) {
-                ?>
+                    ?>
                     <tr>
                         <td><?php echo $srNo++; ?></td>
                         <td><?php echo $row['company_name']; ?></td>
                         <td><?php echo $row['number_of_students_applied']; ?></td>
                         <td>
-                            <button class="btn btn-primary view-details-btn" data-id="<?php echo $row['id']; ?>">View Details</button>
+                            <form method="GET" action="view_company_profile.php">
+                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                <button type="submit" class="btn btn-primary" data-id="<?php echo $row['id']; ?>">View
+                                    Comapny
+                                    Profile</button>
+                            </form>
                         </td>
+                        <!-- <td>
+                            <form method="POST" action="delete_company.php" onsubmit="return confirmDelete()">
+                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+
+                        </td> -->
                     </tr>
-                <?php
+                    <?php
                 }
                 ?>
             </tbody>
@@ -97,7 +112,7 @@ $result = $conn->query($query);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" id="delete-btn">Delete Student</button>
+                    <!-- <button type="button" class="btn btn-danger" id="delete-btn">Delete Student</button> -->
                 </div>
             </div>
         </div>
@@ -134,7 +149,7 @@ $result = $conn->query($query);
                             <label for="password" class="form-label">Password</label>
                             <input type="text" class="form-control" id="password" name="password" required>
                         </div>
-
+                        
                         <div class="mb-3">
                             <label for="city" class="form-label">City:</label>
                             <select name="city" id="city" class="form-control" required>
@@ -164,78 +179,74 @@ $result = $conn->query($query);
             </div>
         </div>
     </div>
- -->
- <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addStudentModalLabel">Add New Job Role</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="addCompanyForm">
-          <div class="mb-3">
-            <label for="company_name" class="form-label">Company Name</label>
-            <input type="text" class="form-control" id="company_name" name="company_name" required>
-          </div>
-          
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="mobile" class="form-label">Mobile</label>
-              <input type="text" class="form-control" id="mobile" name="mobile" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="email" name="email" required>
-            </div>
-          </div>
+    -->
+    <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addStudentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudentModalLabel">Add New Job Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCompanyForm">
+                        <div class="mb-3">
+                            <label for="company_name" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" required>
+                        </div>
 
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="text" class="form-control" id="password" name="password" required>
-            </div>
-          </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="mobile" class="form-label">Mobile</label>
+                                <input type="text" class="form-control" id="mobile" name="mobile" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
 
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="city" class="form-label">City</label>
-              <select name="city" id="city" class="form-control" required>
-                <option value="">--Please choose a city--</option>
-                <option value="Nagpur">Nagpur</option>
-                <option value="Pune">Pune</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Chennai">Chennai</option>
-                <option value="Bengaluru">Bengaluru</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="state" class="form-label">State</label>
-              <select name="state" id="state" class="form-control" required>
-                <option value="">--Please choose a state--</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Telangana">Telangana</option>
-              </select>
-            </div>
-          </div>
 
-          <button type="submit" class="btn btn-primary w-100">Add Company</button>
-        </form>
-      </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <select name="city" id="city" class="form-control" required>
+                                    <option value="">--Please choose a city--</option>
+                                    <option value="Nagpur">Nagpur</option>
+                                    <option value="Pune">Pune</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Hyderabad">Hyderabad</option>
+                                    <option value="Chennai">Chennai</option>
+                                    <option value="Bengaluru">Bengaluru</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="state" class="form-label">State</label>
+                                <select name="state" id="state" class="form-control" required>
+                                    <option value="">--Please choose a state--</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Telangana">Telangana</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Add Company</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-    
 
 
+
+    <script type="text/javascript">
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this company?");
+        }
+    </script>
     <!-- Add Bootstrap and jQuery for handling modal -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -247,17 +258,10 @@ $result = $conn->query($query);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // When 'View Details' button is clicked
-            $('.view-details-btn').click(function() {
-                var studentId = $(this).data('id'); // Get student ID from button data attribute
-
-
-                
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////W      O       R       K        I       N         G        H        E        R      E //
-// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+            $('.view-details-btn').click(function () {
+                var companyId = $(this).data('id'); // Get student ID from button data attribute
 
 
                 // Make an AJAX request to fetch additional student details
@@ -267,7 +271,7 @@ $result = $conn->query($query);
                     data: {
                         id: companyId
                     },
-                    success: function(data) {
+                    success: function (data) {
                         // Insert student details into the modal
                         $('#student-details').html(data);
 
@@ -277,41 +281,41 @@ $result = $conn->query($query);
                 });
 
                 // Set the delete button with the student ID
-                $('#delete-btn').data('id', studentId);
+                $('#delete-btn').data('id', companyId);
             });
 
             // When 'Delete Student' button is clicked
-            $('#delete-btn').click(function() {
-                var studentId = $(this).data('id'); // Get student ID
+            // $('#delete-btn').click(function () {
+            //     var companyId = $(this).data('id'); // Get student ID
 
-                if (confirm('Are you sure you want to delete this student?')) {
-                    // Make an AJAX request to delete the student
-                    $.ajax({
-                        url: 'delete_student.php',
-                        type: 'POST',
-                        data: {
-                            id: studentId
-                        },
-                        success: function(response) {
-                            alert(response); // Show delete message
-                            location.reload(); // Reload the page to reflect changes
-                        }
-                    });
-                }
-            });
+            //     if (confirm('Are you sure you want to delete this student?')) {
+            //         // Make an AJAX request to delete the student
+            //         $.ajax({
+            //             url: 'delete_company.php',
+            //             type: 'POST',
+            //             data: {
+            //                 id: companyId
+            //             },
+            //             success: function (response) {
+            //                 alert(response); // Show delete message
+            //                 location.reload(); // Reload the page to reflect changes
+            //             }
+            //         });
+            //     }
+            // });
             // Add student form submission
-            $('#addCompanyForm').submit(function(e) {
+            $('#addCompanyForm').submit(function (e) {
                 e.preventDefault();
 
                 $.ajax({
                     url: 'add_company.php',
                     type: 'POST',
                     data: $(this).serialize(),
-                    success: function(response) {
+                    success: function (response) {
                         alert(response); // Show success message
                         location.reload(); // Reload the page to show the new student
                     }
-                    
+
                 });
             });
         });

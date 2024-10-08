@@ -14,10 +14,11 @@ if (ini_get("session.use_cookies")) {
 }
 
 // Destroy the session
-// $_SESSION['admin_logged_in'] = false; // Set session for admin login
 $_SESSION['logged_in'] = false;
+// $_SESSION['admin_logged_in'] = false; // Set session for admin login
 // $_SESSION['username'] = "x"; // Set session for admin login
-session_destroy();
+// session_destroy();
+// session_unset();
 // Redirect to the login page or home page
 header("Location: index.php"); // Change to your desired page
 exit();
