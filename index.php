@@ -12,7 +12,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
   <style>
     body {
-
       font-family: "Varela Round", sans-serif;
       font-weight: 400;
       font-style: normal;
@@ -21,7 +20,8 @@
     .new-home-style {
       background-color: white;
       border-radius: 12px;
-      border: 1px sold white 15%;
+      border: 1px solid white;
+      margin-top: 20px;
     }
 
     .clg-background {
@@ -37,19 +37,25 @@
     }
 
     .hero-title {
-      font-size: 3.5rem;
+      font-size: 2.5rem;
       font-weight: bold;
     }
 
+    @media (min-width: 992px) {
+      .hero-title {
+        font-size: 3.5rem;
+      }
+    }
+
     .hero-subtitle {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       color: #6c757d;
       margin: 20px 0;
     }
 
     .cta-button {
-      padding: 15px 30px;
-      font-size: 18px;
+      padding: 10px 20px;
+      font-size: 16px;
       background-color: #1b3f6e;
       color: white;
       border: none;
@@ -70,8 +76,19 @@
     .bg-dark1 {
       background-color: #1b3f6e;
     }
+
+    @media (max-width: 576px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
+
 
 <body>
   <!-- Navigation Bar -->
@@ -90,12 +107,12 @@
           <li class="nav-item">
             <a class="nav-link" href="roadmap.php">Roadmap</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="notifications.php">Notifications</a>
-          </li>
+          </li> -->
 
           <li class="nav-item">
-            <a class="nav-link" href="#admin-dashboard">Contact Us</a>
+            <a class="nav-link" href="contact_us.php">Contact Us</a>
           </li>
         </ul>
       </div>
@@ -105,37 +122,27 @@
   <section class="hero clg-background">
     <div class="container">
       <div class="row align-items-center new-home-style">
-        <div class="col-md-6 ">
-          <h1 class="hero-title ">Your Gateway to Career Opportunities</h1>
-          <p class="hero-subtitle ">A one-stop platform for students to find internships, placements, and career
-            guidance
-            with top recruiters.</p>
+        <div class="col-lg-6 col-md-12">
+          <h1 class="hero-title">Your Gateway to Career Opportunities</h1>
+          <p class="hero-subtitle">A one-stop platform for students to find internships, placements, and career
+            guidance with top recruiters.</p>
           <a href="student_login.php" class="cta-button">Get Started</a>
         </div>
-        <div class="col-md-6 hero-image">
+        <div class="col-lg-6 col-md-12 hero-image">
           <img src="./image/search-hiring-job-online.png" alt="Job Search Illustration" class="img-fluid">
         </div>
       </div>
     </div>
   </section>
 
-
-  <!-- About College Section -->
-
-  <!-- <div class="row justify-content-center m-1">
-    <img src="./image/Anjuman-new.jpg" alt="College Image">
-  </div> -->
-
-  <!-- End About College Section -->
-
   <!-- Login Cards -->
-  <div class="container mt-5 ">
+  <div class="container mt-5">
     <div class="row justify-content-evenly">
       <!-- Student Card -->
-      <div class="col-md-2">
+      <div class="col-6 col-sm-4 col-md-2">
         <a href="student_login.php" class="text-decoration-none">
           <div class="card">
-            <img src="./image/student_logo.png" class="card-img-top" alt="Student Image">
+            <img src="./image/student_logo.png" class="card-img-top img-fluid" alt="Student Image">
             <div class="card-body text-center">
               <h5 class="card-title">Student</h5>
             </div>
@@ -144,10 +151,10 @@
       </div>
 
       <!-- Admin Card -->
-      <div class="col-md-2">
+      <div class="col-6 col-sm-4 col-md-2">
         <a href="admin_login.php" class="text-decoration-none">
           <div class="card">
-            <img src="./image/admin_logo.png" class="card-img-top" alt="Admin Image">
+            <img src="./image/admin_logo.png" class="card-img-top img-fluid" alt="Admin Image">
             <div class="card-body text-center">
               <h5 class="card-title">Admin</h5>
             </div>
@@ -156,10 +163,10 @@
       </div>
 
       <!-- Company Card -->
-      <div class="col-md-2">
+      <div class="col-6 col-sm-4 col-md-2 mt-2">
         <a href="placement_officer_login.php" class="text-decoration-none">
           <div class="card">
-            <img src="./image/company_logo.png" class="card-img-top" alt="Company Image">
+            <img src="./image/company_logo.png" class="card-img-top img-fluid" alt="Company Image">
             <div class="card-body text-center">
               <h5 class="card-title">Recruiter</h5>
             </div>
@@ -168,10 +175,10 @@
       </div>
 
       <!-- Department Card -->
-      <div class="col-md-2">
-        <a href="" class="text-decoration-none">
+      <div class="col-6 col-sm-4 col-md-2 mt-2">
+        <a href="department_login.php" class="text-decoration-none">
           <div class="card">
-            <img src="./image/department_logo.png" class="card-img-top" alt="Department Image">
+            <img src="./image/department_logo.png" class="card-img-top img-fluid" alt="Department Image">
             <div class="card-body text-center">
               <h5 class="card-title">Department</h5>
             </div>
@@ -180,7 +187,6 @@
       </div>
     </div>
   </div>
-
   <!-- End Login Cards -->
 
 

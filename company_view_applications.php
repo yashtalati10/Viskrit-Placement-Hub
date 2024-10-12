@@ -1,6 +1,10 @@
 <?php
 require 'db.php'; // Your database connection file
 session_start();
+if ($_SESSION['logged_in'] == false) {
+  header("Location: index.php");
+}
+
 if ($_SESSION['logged_in']) {
 
     $company_name = $_SESSION['company_name'];
@@ -85,7 +89,7 @@ if ($_SESSION['logged_in']) {
                         <a class="nav-link" href="company_view_applications.php">Applications</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Jobs</a>
+                        <a class="nav-link" href="company_all_jobs.php">Jobs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>

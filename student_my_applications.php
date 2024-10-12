@@ -1,7 +1,9 @@
 <?php
 require 'db.php'; // Your database connection file
 session_start();
-
+if ($_SESSION['logged_in'] == false) {
+    header("Location: index.php");
+}
 
 $username = $_SESSION['username'];
 
@@ -23,10 +25,26 @@ $result1 = $conn->query($query1);
     <title>My Applications </title>
     <!-- Add Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .nav-bar-color {
+            background-color: #433878;
+        }
+
+        .btn-info {
+            background-color: #7E60BF;
+            border: none;
+            color: #f5f5f5;
+        }
+
+        .btn-info:hover {
+            background-color: #433878;
+            color: #f5f5f5;
+        }
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark nav-bar-color">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -103,7 +121,7 @@ $result1 = $conn->query($query1);
                 <td>' . $job_role . '</td>
                 <td>' . $company_name . '</td>
                 <td>' . $status . '</td>
-                <td><a href="apply_job.php?job_id='.$job_id.'+" class="btn btn-primary">View Details</a></td>
+                <td><a href="apply_job.php?job_id=' . $job_id . '+" class="btn btn-info">View Details</a></td>
             </tr>';
                 // Increment serial number
                 $sr_no++;

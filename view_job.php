@@ -1,9 +1,13 @@
 <?php
 require 'db.php'; // Your database connection file
 session_start();
+require 'db.php';
+if ($_SESSION['logged_in'] == false) {
+    header("Location: index.php");
+}
 
 if (isset($_GET['job_id'])) {
-   
+
     $job_id = $_GET['job_id'];
 
     // Fetch company details based on the ID
@@ -12,7 +16,7 @@ if (isset($_GET['job_id'])) {
     $stmt->bind_param('i', $job_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result->num_rows > 0) {
         $job = $result->fetch_assoc();
         $_SESSION['company_name'] = $job['company_name'];
@@ -21,13 +25,13 @@ if (isset($_GET['job_id'])) {
         echo "Job not found!";
         exit;
     }
-    
+
     $query = "SELECT * FROM job_applications WHERE job_id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('i', $job_id);
     $stmt->execute();
     $result1 = $stmt->get_result();
-    
+
 
 
 
@@ -43,7 +47,7 @@ if (isset($_GET['job_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $job['job_role']." - ".$job['company_name']; ?></title>
+    <title><?php echo $job['job_role'] . " - " . $job['company_name']; ?></title>
     <!-- Add Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -71,10 +75,13 @@ if (isset($_GET['job_id'])) {
                         <a class="nav-link" href="all_company_list.php">Company List</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="department_list.php">Department List</a>
+                    </li>
+                    <!-- <li class="nav-item">
 
                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addJobModal">Post New
                             Job</button>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -84,7 +91,7 @@ if (isset($_GET['job_id'])) {
 
 
     <div class="container mt-5">
-        <h1 class="text-center"><?php echo $job['job_role']." : ".$job['company_name']; ?></h1>
+        <h1 class="text-center"><?php echo $job['job_role'] . " : " . $job['company_name']; ?></h1>
         <div class="card mt-4">
             <div class="card-header">
                 Job Details
@@ -100,7 +107,7 @@ if (isset($_GET['job_id'])) {
         </div>
     </div>
 
-    
+
     <div class="container mt-5">
         <h1 class="text-center">Students who applied for this Role</h1>
 
@@ -122,10 +129,13 @@ if (isset($_GET['job_id'])) {
                         ?>
                         <tr>
                             <td><?php echo $srNo++; ?></td> <!-- Increment serial number -->
-                            <td><?php echo $job1['first_name']." ".$job1['last_name'] ; ?></td>
+                            <td><?php echo $job1['first_name'] . " " . $job1['last_name']; ?></td>
                             <td><?php echo $job1['status']; ?></td>
                             <td>
-                                <form action="view_job.php">
+                                <form action="admin_view_student_profile.php">
+                                    <input type="hidden" name="username" value="<?php echo $job1['username']; ?>">
+                                    <input type="hidden" name="job_id" value="<?php echo $job1['job_id']; ?>">
+                                    <input type="hidden" name="status" value="<?php echo $job1['status']; ?>">
                                     <button class="btn btn-info">View</button>
                                 </form>
                             </td>
@@ -145,7 +155,7 @@ if (isset($_GET['job_id'])) {
     </div>
 
 
-    <div class="modal fade" id="addJobModal" tabindex="-1" aria-labelledby="addJobModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="addJobModal" tabindex="-1" aria-labelledby="addJobModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -153,9 +163,9 @@ if (isset($_GET['job_id'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="add_job.php" method="POST">
-                        <!-- <form id="addJobForm"> -->
-                        <div class="mb-3">
+                    <form action="add_job.php" method="POST"> -->
+    <!-- <form id="addJobForm"> -->
+    <!-- <div class="mb-3">
                             <label for="job-role" class="form-label">Job Role</label>
                             <input type="text" class="form-control" id="job-role" name="job-role" required>
                         </div>
@@ -186,9 +196,9 @@ if (isset($_GET['job_id'])) {
                                     <option value="6 - 9 LPA">6 - 9 LPA</option>
                                     <option value="9 - 12 LPA">9 - 12 LPA</option>
                                     <option value="12 - 15 LPA">12 - 15 LPA</option>
-                                </select>
-                                <!-- <input type="text" class="form-control" id="expected-salary" name="expected-salary" required> -->
-                            </div>
+                                </select> -->
+    <!-- <input type="text" class="form-control" id="expected-salary" name="expected-salary" required> -->
+    <!-- </div>
                         </div>
 
 
@@ -211,9 +221,9 @@ if (isset($_GET['job_id'])) {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <script>
+    <!-- <script>
         $(document).ready(function () {
 
             // Add student form submission
@@ -233,8 +243,8 @@ if (isset($_GET['job_id'])) {
 
                 });
             });
-        });
-    </script>
+        }); -->
+    <!-- </script> -->
 
     <!-- Add Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

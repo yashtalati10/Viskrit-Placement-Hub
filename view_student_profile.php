@@ -1,7 +1,9 @@
 <?php
 require 'db.php';
 session_start();
-
+if ($_SESSION['logged_in'] == false) {
+  header("Location: index.php");
+}
 if (isset($_GET['username']) && isset($_GET['job_id'])) {
     $username = $_GET['username'];
     $job_id = $_GET['job_id'];

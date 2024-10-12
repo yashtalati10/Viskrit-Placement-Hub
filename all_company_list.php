@@ -1,6 +1,9 @@
 <?php
 require 'db.php'; // Your database connection file
-
+session_start();
+if ($_SESSION['logged_in'] == false) {
+  header("Location: index.php");
+}
 // Fetch all students data from the `all_students_list` table
 $query = "SELECT id, company_name, number_of_students_applied, city, username  FROM all_companies_list";
 $result = $conn->query($query);
@@ -40,9 +43,10 @@ $result = $conn->query($query);
                         <a class="nav-link" href="all_student_list.php">Student List</a>
                     </li>
                     <li class="nav-item">
-
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCompanyModal">Add New
-                            Company</button>
+                        <a class="nav-link" href="department_list.php">Department List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -54,6 +58,10 @@ $result = $conn->query($query);
 
     <div class="container mt-5">
         <h2 class="text-center">Company List </h2>
+        <div class="d-flex justify-content-between mb-3">
+            <div></div> <!-- Placeholder for alignment -->
+            <a href="add_company.php" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCompanyModal">Add New Company</a>
+        </div>
         <h2 class="text-center">
         </h2>
 
@@ -78,9 +86,7 @@ $result = $conn->query($query);
                         <td>
                             <form method="GET" action="view_company_profile.php">
                                 <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                                <button type="submit" class="btn btn-primary" data-id="<?php echo $row['id']; ?>">View
-                                    Comapny
-                                    Profile</button>
+                                <button type="submit" class="btn btn-primary" data-id="<?php echo $row['id']; ?>">View</button>
                             </form>
                         </td>
                         <!-- <td>

@@ -2,6 +2,9 @@
 
 require 'db.php';
 session_start();
+if ($_SESSION['logged_in'] == false) {
+  header("Location: index.php");
+}
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -45,13 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'abdulrahim74264@gmail.com';
-    $mail->Password = 'jity znsz ynbq gntq'; // SMTP password
+    $mail->Username = 'yashtalati07@gmail.com';
+    $mail->Password = 'lwym wcoy atxv lijf'; // SMTP password
     $mail->SMTPSecure = 'ssl';
     $mail->Port = 465;
 
     //Recipients
-    $mail->setFrom('abdulrahim74264@gmail.com', 'Abdul Rahim');
+    $mail->setFrom('yashtalati07@gmail.com', 'Yash Talati');
     $mail->addAddress($email);  // Add a recipient email
 
     //Content

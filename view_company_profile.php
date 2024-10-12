@@ -1,7 +1,9 @@
 <?php
 require 'db.php'; // Your database connection file
 session_start();
-
+if ($_SESSION['logged_in'] == false) {
+  header("Location: index.php");
+}
 if (isset($_GET['id'])) {
     $company_id = $_GET['id'];
 

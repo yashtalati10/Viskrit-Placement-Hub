@@ -139,7 +139,7 @@ if ($_SESSION['logged_in']) {
           <div class="card-body">
             <h6 class="card-title">Total Jobs Posted</h6>
             <h2 class="fw-bold text-primary"><?php echo $job_count['TotalJobs']; ?></h2>
-            <a href=".php" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center">
+            <a href="company_all_jobs.php" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center">
               View All Jobs
               <i class="bi bi-arrow-right ms-2"></i>
             </a>
@@ -169,20 +169,9 @@ if ($_SESSION['logged_in']) {
     <div class="container">
       <h2 class="text-center"></h2>
       <div class="row">
-        <!-- Post Job Form -->
+        
         <div class="col-md-6">
-          <!-- <h4>Post a Job</h4>
-          <form method="POST" action="post_job.php">
-            <div class="mb-3">
-              <label for="jobTitle" class="form-label">Job Title</label>
-              <input type="text" class="form-control" id="jobTitle" name="job_title" required>
-            </div>
-            <div class="mb-3">
-              <label for="jobDescription" class="form-label">Job Description</label>
-              <textarea class="form-control" id="jobDescription" name="job_description" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Post Job</button>
-          </form> -->
+          
           <h4>Posted Jobs</h4>
           <table class="table table-bordered table-striped mt-4">
             <thead class="thead-dark">
@@ -228,7 +217,7 @@ if ($_SESSION['logged_in']) {
 
 
         <!-- View Applications -->
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <h4>View Applications</h4>
           <table class="table table-bordered table-striped mt-4">
             <thead class="thead-dark">
@@ -240,47 +229,47 @@ if ($_SESSION['logged_in']) {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody> -->
               <?php
-              if ($result1->num_rows > 0) {
-                $srNo = 1; // Initialize serial number
-                while ($job1 = $result1->fetch_assoc()) {
+              // if ($result1->num_rows > 0) {
+                // $srNo = 1; // Initialize serial number
+                // while ($job1 = $result1->fetch_assoc()) {
                   ?>
                   <?php
-                  $job_id = $job1['job_id'];
-                  $query = "SELECT job_role FROM all_jobs_list WHERE job_id = $job_id";
-                  $stmt = $conn->prepare($query);
-                  $stmt->execute();
-                  $result2 = $stmt->get_result();
-                  $job_role = $result2->fetch_assoc()
+                  // $job_id = $job1['job_id'];
+                  // $query = "SELECT job_role FROM all_jobs_list WHERE job_id = $job_id";
+                  // $stmt = $conn->prepare($query);
+                  // $stmt->execute();
+                  // $result2 = $stmt->get_result();
+                  // $job_role = $result2->fetch_assoc()
                     ?>
-                  <tr>
-                    <td><?php echo $srNo++; ?></td> <!-- Increment serial number -->
-                    <td><?php echo $job1['first_name'] . " " . $job1['last_name']; ?></td>
-                    <td><?php echo $job_role['job_role']; ?></td>
-                    <td><?php echo $job1['status']; ?></td>
-                    <td>
-                      <form action="view_job.php">
+                  <!-- <tr> -->
+                    <!-- <td><?php //echo $srNo++; ?></td> Increment serial number -->
+                    <!-- <td><?php //echo $job1['first_name'] . " " . $job1['last_name']; ?></td> -->
+                    <!-- <td><?php //echo $job_role['job_role']; ?></td> -->
+                    <!-- <td><?php //echo $job1['status']; ?></td> -->
+                    <!-- <td> -->
+                      <!-- <form action="view_job.php">
                         <button class="btn btn-info">View</button>
                       </form>
                     </td>
-                  </tr>
+                  </tr> -->
                   <?php
-                }
-              } else {
+            //    }
+             // } else {
                 ?>
-                <tr>
+                <!-- <tr>
                   <td colspan="4" class="text-center">No jobs posted yet</td>
-                </tr>
+                </tr> -->
                 <?php
-              }
+              //}
               ?>
-            </tbody>
+            <!-- </tbody>
           </table>
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- Bootstrap JS (Optional if needed for interactivity like collapse) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

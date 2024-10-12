@@ -1,6 +1,6 @@
 <?php
-session_start();
 require 'db.php'; // Include your DB connection file
+session_start();
 
 // Function to get placement officer credentials from the database
 function get_placement_officer_credentials($username)

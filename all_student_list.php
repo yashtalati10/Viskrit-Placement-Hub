@@ -1,6 +1,9 @@
 <?php
+session_start();
 require 'db.php'; // Your database connection file
-
+if ($_SESSION['logged_in'] == false) {
+    header("Location: index.php");
+  }
 // Fetch all students data from the `all_students_list` table
 $query = "SELECT id, collegeid, first_name, last_name, number_of_companies_applied, department FROM all_students_list";
 $result = $conn->query($query);
@@ -16,6 +19,22 @@ $result = $conn->query($query);
     <title>All Students List</title>
     <!-- Add Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        th{
+            cursor: pointer;
+        }
+        .search-bar{
+            border-radius: 12px;
+            border: 1px solid gray;
+            /* margin: 2rem;  */
+            padding: 0.5rem; 
+        }
+        @media (max-width: 767.98px) {
+            .hide-mobile {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -36,10 +55,13 @@ $result = $conn->query($query);
                         <a class="nav-link" href="#login"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="all_student_list.php">All Student List</a>
+                        <a class="nav-link" href="all_company_list.php">Company List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="all_company_list.php">Company List</a>
+                        <a class="nav-link" href="department_list.php">Depatment List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -50,19 +72,22 @@ $result = $conn->query($query);
 
 
     <div class="container mt-5">
-        <h2 class="text-center">All Students List </h2>
-        <h2 class="text-center"><button class="btn btn-success" data-bs-toggle="modal"
-                data-bs-target="#addStudentModal">Add Student</button></h2>
+        <h2 class="text-center ">All Students List </h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <input class="me-2 search-bar" id="tableSearch" type="text" placeholder="Search...">
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button>
+        </div>
+        <h2 class="text-center"></h2>
 
         <table class="table table-bordered">
             <thead>
-                <tr>
+                <tr class="bg-secondary">
                     <th>Sr. No</th>
                     <th>College ID</th>
                     <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Number of Companies Applied</th>
-                    <th>Department</th>
+                    <th class="hide-mobile">Last Name</th>
+                    <th class="hide-mobile">Number of Companies Applied</th>
+                    <th class="hide-mobile">Department</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -75,9 +100,9 @@ $result = $conn->query($query);
                         <td><?php echo $srNo++; ?></td>
                         <td><?php echo $row['collegeid']; ?></td>
                         <td><?php echo $row['first_name']; ?></td>
-                        <td><?php echo $row['last_name']; ?></td>
-                        <td><?php echo $row['number_of_companies_applied']; ?></td>
-                        <td><?php echo $row['department']; ?></td>
+                        <td class="hide-mobile"><?php echo $row['last_name']; ?></td>
+                        <td class="hide-mobile"><?php echo $row['number_of_companies_applied']; ?></td>
+                        <td class="hide-mobile"><?php echo $row['department']; ?></td>
                         <td>
                             <button class="btn btn-primary view-details-btn" data-id="<?php echo $row['id']; ?>">View
                                 Details</button>
@@ -248,6 +273,37 @@ $result = $conn->query($query);
                         alert(response); // Show success message
                         location.reload(); // Reload the page to show the new student
                     }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Sort functionality
+            $('th').click(function () {
+                var table = $(this).parents('table').eq(0)
+                var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+                this.asc = !this.asc
+                if (!this.asc) { rows = rows.reverse() }
+                for (var i = 0; i < rows.length; i++) { table.append(rows[i]) }
+            })
+
+            function comparer(index) {
+                return function (a, b) {
+                    var valA = getCellValue(a, index), valB = getCellValue(b, index)
+                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+                }
+            }
+
+            function getCellValue(row, index) {
+                return $(row).children('td').eq(index).text()
+            }
+
+            // Search functionality
+            $("#tableSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("table tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
         });

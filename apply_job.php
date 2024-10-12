@@ -1,7 +1,9 @@
 <?php
 require 'db.php'; // Your database connection file
 session_start();
-
+if ($_SESSION['logged_in'] == false) {
+    header("Location: index.php");
+}
 if (isset($_GET['job_id'])) {
     $job_id = $_GET['job_id'];
     $username = $_SESSION['username'];
@@ -13,7 +15,7 @@ if (isset($_GET['job_id'])) {
     $status_result = $stmt->get_result();
     if ($status_result->num_rows > 0) {
         $status = $status_result->fetch_assoc();
-        
+
         if ($status['status'] == 'Applied' || $status['status'] == 'Rejected') {
             $buttonDisabled = true;
         }
@@ -45,6 +47,7 @@ if (isset($_GET['job_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,15 +55,23 @@ if (isset($_GET['job_id'])) {
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        .nav-bar-color {
+            /* background-color: #32213A; */
+            background-color: #433878;
+        }
+
         .card {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .card-header {
-            background-color: #007bff;
+            /* background-color: #007bff; */
+            background-color: #433878;
             color: white;
             font-weight: bold;
         }
-        .btn-success, .btn-danger {
+        .btn-success,
+        .btn-danger {
             width: 100%;
             margin-top: 20px;
         }
@@ -70,12 +81,14 @@ if (isset($_GET['job_id'])) {
         }
     </style>
 </head>
+
 <body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark nav-bar-color">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">Placement Hub</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -84,7 +97,7 @@ if (isset($_GET['job_id'])) {
                         <a class="nav-link" href="student_dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="view_available_jobs.php">View Jobs</a>
+                        <a class="nav-link" href="available_jobs.php">View Jobs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="student_my_applications.php">My Applications</a>
@@ -100,7 +113,7 @@ if (isset($_GET['job_id'])) {
     <div class="container mt-5">
         <h1 class="text-center"><?php echo $job['job_role'] . ": " . $job['company_name']; ?></h1>
         <div class="card mt-4">
-            <div class="card-header">
+            <div class="card-header" style="background-color: #433878;">
                 Job Details
             </div>
             <div class="card-body">
@@ -118,8 +131,14 @@ if (isset($_GET['job_id'])) {
         <div class="mt-4">
             <?php if (isset($buttonSuccess)): ?>
                 <button class="btn btn-success" disabled>Application Accepted</button>
+
             <?php elseif (isset($buttonDisabled)): ?>
-                <button class="btn btn-danger" disabled><?php echo $status['status']; ?></button>
+                <?php if ($status['status'] == 'Applied'): ?>
+                    <button class="btn btn-primary" disabled><?php echo $status['status']; ?></button>
+                <?php else: ?>
+                    <button class="btn btn-danger" disabled><?php echo $status['status']; ?></button>
+                <?php endif; ?>
+
             <?php else: ?>
                 <form action="apply_job_process.php" method="POST" onsubmit="return confirmApplication();">
                     <input type="hidden" name="job_id" value="<?= $job['job_id'] ?>">
@@ -127,6 +146,7 @@ if (isset($_GET['job_id'])) {
                     <button type="submit" class="btn btn-primary w-100">Easy Apply</button>
                 </form>
             <?php endif; ?>
+
         </div>
     </div>
 
@@ -139,4 +159,5 @@ if (isset($_GET['job_id'])) {
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 <?php
-session_start();
 require 'db.php';
+session_start();
 if ($_SESSION['logged_in'] == false) {
   header("Location: index.php");
 }
@@ -22,6 +22,12 @@ $stmt = $conn->prepare($query);
 $stmt->execute();
 $student_count_result = $stmt->get_result();
 $student_count = $student_count_result->fetch_assoc(); 
+
+$query = "SELECT COUNT(*) AS TotalDepartments FROM department_details";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$department_count_result = $stmt->get_result();
+$department_count = $department_count_result->fetch_assoc(); 
 
 
 
@@ -56,6 +62,9 @@ $student_count = $student_count_result->fetch_assoc();
           </li>
           <li class="nav-item">
             <a class="nav-link" href="all_company_list.php">Company List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="department_list.php">Department List</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="logout.php">Logout</a>
@@ -103,12 +112,29 @@ $student_count = $student_count_result->fetch_assoc();
                         <h6 class="card-title">Total Students Applied</h6>
                         <h2 class="fw-bold text-danger"><?php echo $student_count['TotalStudents']; ?></h2>
                         <a href="all_company_list.php" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center">
-                            View Student List
+                            View Applications
                             <i class="bi bi-arrow-right ms-2"></i>
                         </a>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row mt-5">
+            <!-- Card 4: Total Department -->
+            <div class="col-md-4">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title">Total Department Admins</h6>
+                        <h2 class="fw-bold text-info"><?php echo $department_count['TotalDepartments']; ?></h2>
+                        <a href="department_list.php" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center">
+                            View Department Admins
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            
         </div>
     </div>
 
