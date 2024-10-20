@@ -1,38 +1,45 @@
 <?php
+// Include the database connection file
 require 'db.php';
+
+// Start the session to check if the user is logged in
 session_start();
+
+// Check if the user is logged in, if not, redirect to login page (index.php)
 if ($_SESSION['logged_in'] == false) {
   header("Location: index.php");
 }
 
+// Query to count the total number of companies from the 'all_companies_list' table
 $query = "SELECT COUNT(*) AS TotalRows FROM all_companies_list";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$company_count_result = $stmt->get_result();
-$company_count = $company_count_result->fetch_assoc(); 
+$stmt = $conn->prepare($query);  // Prepare the SQL statement
+$stmt->execute();  // Execute the statement
+$company_count_result = $stmt->get_result();  // Get the result
+$company_count = $company_count_result->fetch_assoc();  // Fetch the result as an associative array
 
+// Query to count the total number of jobs posted in the 'all_jobs_list' table
 $query = "SELECT COUNT(*) AS TotalJobs FROM all_jobs_list";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$job_count_result = $stmt->get_result();
-$job_count = $job_count_result->fetch_assoc(); 
+$stmt = $conn->prepare($query);  // Prepare the SQL statement
+$stmt->execute();  // Execute the statement
+$job_count_result = $stmt->get_result();  // Get the result
+$job_count = $job_count_result->fetch_assoc();  // Fetch the result as an associative array
 
+// Query to count the total number of students who applied for jobs in the 'job_applications' table
 $query = "SELECT COUNT(*) AS TotalStudents FROM job_applications";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$student_count_result = $stmt->get_result();
-$student_count = $student_count_result->fetch_assoc(); 
+$stmt = $conn->prepare($query);  // Prepare the SQL statement
+$stmt->execute();  // Execute the statement
+$student_count_result = $stmt->get_result();  // Get the result
+$student_count = $student_count_result->fetch_assoc();  // Fetch the result as an associative array
 
+// Query to count the total number of departments in the 'department_details' table
 $query = "SELECT COUNT(*) AS TotalDepartments FROM department_details";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$department_count_result = $stmt->get_result();
-$department_count = $department_count_result->fetch_assoc(); 
-
-
-
-
+$stmt = $conn->prepare($query);  // Prepare the SQL statement
+$stmt->execute();  // Execute the statement
+$department_count_result = $stmt->get_result();  // Get the result
+$department_count = $department_count_result->fetch_assoc();  // Fetch the result as an associative array
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,13 +54,13 @@ $department_count = $department_count_result->fetch_assoc();
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">Placement Hub</a>
+      <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto"> <!-- Right-aligned navigation items -->
           <li class="nav-item">
             <a class="nav-link" href="#login"></a>
           </li>
@@ -73,8 +80,9 @@ $department_count = $department_count_result->fetch_assoc();
       </div>
     </div>
   </nav>
- 
 
+ 
+  <!-- Dashboard Cards -->
   <div class="container mt-5">
         <div class="row">
             <!-- Card 1: Total Companies -->

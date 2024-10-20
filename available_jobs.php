@@ -1,24 +1,30 @@
 <?php
-session_start();
-require 'db.php';
+session_start(); // Start the session to maintain user state
+require 'db.php'; // Include the database connection file
+
+// Check if the user is logged in, if not, redirect to the login page
 if ($_SESSION['logged_in'] == false) {
   header("Location: index.php");
 }
+
+// Get the current user's username and first name from session variables
 $username = $_SESSION['username'];
 $first_name = $_SESSION['first_name'];
 
+// Query to count the total number of jobs available
 $query = "SELECT COUNT(*) AS TotalJobs FROM all_jobs_list";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $job_count_result = $stmt->get_result();
-$job_count = $job_count_result->fetch_assoc();
+$job_count = $job_count_result->fetch_assoc(); // Fetch the total number of jobs
 
-$query = "SELECT COUNT(*) AS TotalApplications FROM job_applications WHERE username=?";
+// Query to count the total number of job applications by the current user
+$query = "SELECT COUNT(*) AS TotalApplications FROM job_applications WHERE username=$username";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("s", $username);
 $stmt->execute();
 $application_count_result = $stmt->get_result();
-$application_count = $application_count_result->fetch_assoc();
+$application_count = $application_count_result->fetch_assoc(); // Fetch the total number of applications submitted by the user
+
 
 // Check if a search query is provided
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
@@ -53,14 +59,17 @@ $result = $stmt->get_result();
     body {
       background-color: #f5f5f5;
     }
+
     .nav-bar-color {
       background-color: #433878;
     }
+
     .btn-info {
       background-color: #7E60BF;
       border: none;
       color: #f5f5f5;
     }
+
     .btn-info:hover {
       background-color: #433878;
       color: #f5f5f5;
@@ -72,7 +81,7 @@ $result = $stmt->get_result();
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark nav-bar-color">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">Placement Hub</a>
+      <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -113,20 +122,27 @@ $result = $stmt->get_result();
       <h2 class="text-center mb-5">Available Jobs</h2>
       <div class="row">
         <?php
+        // Check if there are jobs available, then display them in a card format
         if ($result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-        ?>
+          while ($row = $result->fetch_assoc()) { // Fetch each job row
+        ?> 
             <div class="col-md-3 mb-4">
               <div class="card h-100 shadow-sm">
                 <div class="card-body">
+                  <!-- Job Role -->
                   <h5 class="card-title fw-bold"><?php echo $row['job_role']; ?></h5>
+                  <!-- Company Name -->
                   <p class="card-text mb-2"><i class="bi bi-building"></i> <?php echo $row['company_name']; ?></p>
+                  <!-- No of Applications -->
                   <p class="card-text mb-2"><i class="bi bi-person-lines-fill"></i> Total Applications:
                     <?php echo $row['no_applicants']; ?></p>
-                  <p class="card-text mb-2"><i class="bi bi-currency-dollar"></i> Expected Salary:
+                  <!-- Expected Salary -->
+                    <p class="card-text mb-2"><i class="bi bi-currency-dollar"></i> Expected Salary:
                     <?php echo $row['expected_salary']; ?></p>
-                  <p class="card-text mb-3"><i class="bi bi-briefcase"></i> Job Type: <?php echo $row['job_type']; ?></p>
-                  <form method="GET" action="apply_job.php">
+                  <!-- Job Type -->
+                    <p class="card-text mb-3"><i class="bi bi-briefcase"></i> Job Type: <?php echo $row['job_type']; ?></p>
+                  <!-- View Button to see job details -->
+                    <form method="GET" action="apply_job.php">
                     <input type="hidden" name="job_id" value="<?php echo $row['job_id']; ?>">
                     <button type="submit" class="btn btn-info btn-block">View</button>
                   </form>
@@ -136,7 +152,7 @@ $result = $stmt->get_result();
         <?php
           }
         } else {
-          echo "<p class='text-center'>No jobs found!</p>";
+          echo "<p class='text-center'>No jobs found!</p>"; // Message if no jobs are available
         }
         ?>
       </div>

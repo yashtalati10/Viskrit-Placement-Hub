@@ -1,62 +1,68 @@
 <?php
+// Start the session to access session variables
 session_start();
+
+// Include the database connection file
 require 'db.php';
 
+// Check if the user is logged in by verifying the session variable
+// If not logged in, redirect to the login page (index.php)
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] === false) {
-  header("Location: index.php");
-  exit;
+    header("Location: index.php");
+    exit; // Ensure no further code is executed after redirection
 }
 
+// Retrieve the logged-in user's username and first name from session
 $username = $_SESSION['username'];
 $first_name = $_SESSION['first_name'];
 
+// SQL query to count the total number of jobs in the all_jobs_list table
 $query = "SELECT COUNT(*) AS TotalJobs FROM all_jobs_list";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$job_count_result = $stmt->get_result();
-$job_count = $job_count_result->fetch_assoc();
+$stmt = $conn->prepare($query); // Prepare the SQL statement
+$stmt->execute(); // Execute the prepared statement
+$job_count_result = $stmt->get_result(); // Get the result of the query
+$job_count = $job_count_result->fetch_assoc(); // Fetch the result as an associative array
 
-// Fetch application count securely using prepared statement
+// SQL query to count the total number of job applications for the logged-in user
+// Uses a prepared statement to securely bind the username parameter
 $query = "SELECT COUNT(*) AS TotalApplications FROM job_applications WHERE username = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$application_count_result = $stmt->get_result();
-$application_count = $application_count_result->fetch_assoc();
-
-
+$stmt = $conn->prepare($query); // Prepare the SQL statement
+$stmt->bind_param("s", $username); // Bind the username to the SQL query
+$stmt->execute(); // Execute the prepared statement
+$application_count_result = $stmt->get_result(); // Get the result of the query
+$application_count = $application_count_result->fetch_assoc(); // Fetch the result as an associative array
 
 // Set the number of jobs to display per page
 $jobsPerPage = 4;
 
-// Get the current page number from the query string, default is 1
+// Get the current page number from the query string, defaulting to page 1 if not set
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-if ($page < 1)
-  $page = 1;
+if ($page < 1) {
+    $page = 1; // Ensure the page number is at least 1
+}
 
-// Calculate the offset for the SQL query
+// Calculate the offset for the SQL query (which row to start from)
 $offset = ($page - 1) * $jobsPerPage;
 
-// Fetch total number of jobs to calculate pagination
+// SQL query to fetch the total number of jobs in the all_jobs_list table for pagination
 $totalJobsQuery = "SELECT COUNT(*) as total FROM all_jobs_list";
-$totalResult = $conn->query($totalJobsQuery);
-$totalJobsRow = $totalResult->fetch_assoc();
-$totalJobs = $totalJobsRow['total'];
+$totalResult = $conn->query($totalJobsQuery); // Execute the query
+$totalJobsRow = $totalResult->fetch_assoc(); // Fetch the result as an associative array
+$totalJobs = $totalJobsRow['total']; // Get the total number of jobs
 
-// Calculate total pages
+// Calculate the total number of pages based on the number of jobs and jobs per page
 $totalPages = ceil($totalJobs / $jobsPerPage);
 
-// Fetch jobs for the current page
-
+// SQL query to fetch the jobs for the current page, ordered by job_id in descending order
+// The query uses LIMIT for pagination and OFFSET to skip to the correct set of rows
 $query = "SELECT * FROM all_jobs_list ORDER BY job_id DESC LIMIT ? OFFSET ? ";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("ii", $jobsPerPage, $offset);
-$stmt->execute();
-$result = $stmt->get_result();
-
-
+$stmt = $conn->prepare($query); // Prepare the SQL statement
+$stmt->bind_param("ii", $jobsPerPage, $offset); // Bind the limit and offset values
+$stmt->execute(); // Execute the prepared statement
+$result = $stmt->get_result(); // Get the result of the query
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -153,7 +159,7 @@ $result = $stmt->get_result();
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark nav-bar-color">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">Placement Hub</a>
+      <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

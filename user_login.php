@@ -17,7 +17,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <!-- Dark theme Bootstrap navbar -->
     <div class="container-fluid">
       <!-- Brand name/logo linked to index page -->
-      <a class="navbar-brand" href="index.php">ACET Job Portal</a>
+      <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
       
       <!-- Button for mobile navigation toggle -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

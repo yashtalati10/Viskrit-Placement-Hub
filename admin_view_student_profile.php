@@ -1,17 +1,26 @@
 <?php
+// Include the database connection file
 require 'db.php';
+
+// Start the session
 session_start();
+
+// Redirect to the login page if the user is not logged in
 if ($_SESSION['logged_in'] == false) {
     header("Location: index.php");
 }
+
+// Check if both username and job_id are provided in the URL
 if (isset($_GET['username']) && isset($_GET['job_id'])) {
-    $username = $_GET['username'];
-    $job_id = $_GET['job_id'];
-    $status = $_GET['status'];
-    $result1 = mysqli_query($conn, "SELECT * FROM all_jobs_list where job_id='$job_id'");
-    $job_role = $result1->fetch_assoc();
+    $username = $_GET['username']; // Get the username from the URL
+    $job_id = $_GET['job_id'];     // Get the job_id from the URL
+    $status = $_GET['status'];      // Get the status from the URL
+
+    // Fetch job details based on the job_id
+    $result1 = mysqli_query($conn, "SELECT * FROM all_jobs_list WHERE job_id='$job_id'");
+    $job_role = $result1->fetch_assoc(); // Fetch job details as an associative array
 } else {
-    echo "Invalid request!";
+    echo "Invalid request!"; // Display message if required parameters are missing
     exit;
 }
 
@@ -62,7 +71,7 @@ if (mysqli_num_rows($result) > 0) {
             <!-- Navigation Bar -->
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="index.php">Placement Hub</a>
+                    <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>

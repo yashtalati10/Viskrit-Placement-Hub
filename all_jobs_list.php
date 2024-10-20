@@ -1,36 +1,36 @@
 <?php
+// Start the session
 session_start();
+
+// Include the database connection file
 require 'db.php';
+
+// Redirect to the login page if the user is not logged in
 if ($_SESSION['logged_in'] == false) {
-  header("Location: index.php");
+    header("Location: index.php");
 }
 
+// Query to count the total number of jobs in the database
 $query = "SELECT COUNT(*) AS TotalJobs FROM all_jobs_list";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $job_count_result = $stmt->get_result();
-$job_count = $job_count_result->fetch_assoc();
-
-
-
-
-
+$job_count = $job_count_result->fetch_assoc(); // Fetch the job count as an associative array
 
 // Fetch total number of jobs to calculate pagination
 $totalJobsQuery = "SELECT COUNT(*) as total FROM all_jobs_list";
 $totalResult = $conn->query($totalJobsQuery);
 $totalJobsRow = $totalResult->fetch_assoc();
-$totalJobs = $totalJobsRow['total'];
+$totalJobs = $totalJobsRow['total']; // Store the total job count
 
-// Calculate total pages
+// Calculate total pages (this part is incomplete in the provided code)
 
-
-// Fetch jobs for the current page
+// Fetch all jobs from the database
 $query = "SELECT * FROM all_jobs_list";
-$result = $conn->query($query);
-
+$result = $conn->query($query); // Execute the query to fetch jobs
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +49,7 @@ $result = $conn->query($query);
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">Placement Hub</a>
+      <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

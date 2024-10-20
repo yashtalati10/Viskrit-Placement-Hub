@@ -6,11 +6,11 @@
   <title>College Job Portal</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">ACET Job Portal</a>
+      <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -62,45 +62,12 @@
 
   
   <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3 mt-2">
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p>&copy; 2024 College Job Portal. All rights reserved.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-  document.getElementById('sendOtpBtn').addEventListener('click', function() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      
-      if (username && password) {
-       
-    //   Send a POST request to the server to send OTP
-    //   fetch('sendOtp.php', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ email: email, password: password }),
-    //   })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     if (data.success) {
-        //   Show the OTP input section
-          document.getElementById('otpSection').classList.remove('d-none');
-          document.getElementById('loginBtn').disabled = false;
-          alert('OTP has been sent to your email.');
-    //     } else {
-    //       alert('Error sending OTP. Please check your credentials.');
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error('Error:', error);
-    //   });
-    // } else {
-    //   alert('Please enter both email and password.');
-    }
-  });
-</script>
+
 
 </body>
 </html>

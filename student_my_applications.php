@@ -1,19 +1,19 @@
 <?php
-require 'db.php'; // Your database connection file
-session_start();
+require 'db.php'; // Include the database connection file
+session_start(); // Start the session
+
+// Check if the user is logged in; if not, redirect to the index page
 if ($_SESSION['logged_in'] == false) {
     header("Location: index.php");
+    exit; // Ensure no further code is executed after redirect
 }
 
-$username = $_SESSION['username'];
+$username = $_SESSION['username']; // Get the logged-in username
 
-// First, fetch job_id and company_name from job_applications table
-$query1 = "SELECT job_id, company_name,status  FROM job_applications WHERE username = $username";
-$result1 = $conn->query($query1);
-
-
+// Fetch job_id, company_name, and status from job_applications for the logged-in user
+$query1 = "SELECT job_id, company_name, status FROM job_applications WHERE username = '$username'"; // Note: It's better to use prepared statements to prevent SQL injection
+$result1 = $conn->query($query1); // Execute the query
 ?>
-
 
 
 <!DOCTYPE html>
@@ -46,7 +46,7 @@ $result1 = $conn->query($query1);
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-dark nav-bar-color">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Placement Hub</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

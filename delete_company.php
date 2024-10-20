@@ -1,9 +1,9 @@
 <?php
-// Start session and include database connection
+
+// Start session to access session variables
 session_start();
+// Include the database connection file
 include 'db.php'; // Make sure to replace this with your actual database connection file
-
-
 
 
 // Check if the 'id' is set in POST request

@@ -1,45 +1,49 @@
 <?php
-require 'db.php'; // Your database connection file
+// Include the database connection file
+require 'db.php'; 
+
+// Start the session
 session_start();
-require 'db.php';
+
+// Redirect to the login page if the user is not logged in
 if ($_SESSION['logged_in'] == false) {
     header("Location: index.php");
 }
 
+// Check if job_id is provided in the URL
 if (isset($_GET['job_id'])) {
-
     $job_id = $_GET['job_id'];
 
-    // Fetch company details based on the ID
+    // Fetch company details based on the job_id using a prepared statement
     $query = "SELECT * FROM all_jobs_list WHERE job_id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('i', $job_id);
+    $stmt->bind_param('i', $job_id); // Bind job_id as an integer
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // Check if the job was found
     if ($result->num_rows > 0) {
-        $job = $result->fetch_assoc();
-        $_SESSION['company_name'] = $job['company_name'];
-        $_SESSION['job_id'] = $job['job_id'];
+        $job = $result->fetch_assoc(); // Fetch job details as an associative array
+        $_SESSION['company_name'] = $job['company_name']; // Store company name in session
+        $_SESSION['job_id'] = $job['job_id']; // Store job ID in session
     } else {
-        echo "Job not found!";
+        echo "Job not found!"; // Display message if job is not found
         exit;
     }
 
+    // Fetch applications related to the job_id
     $query = "SELECT * FROM job_applications WHERE job_id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('i', $job_id);
+    $stmt->bind_param('i', $job_id); // Bind job_id as an integer
     $stmt->execute();
-    $result1 = $stmt->get_result();
-
-
-
+    $result1 = $stmt->get_result(); // Get the result of job applications
 
 } else {
-    echo "Invalid request!";
+    echo "Invalid request!"; // Display message if job_id is not provided
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +59,7 @@ if (isset($_GET['job_id'])) {
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Placement Hub</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

@@ -1,33 +1,39 @@
 <?php
-require 'db.php'; // Your database connection file
+// Include the database connection file
+require 'db.php'; 
+
+// Start the session
 session_start();
+
+// Redirect to the login page if the user is not logged in
 if ($_SESSION['logged_in'] == false) {
     header("Location: index.php");
 }
+
+// Check if job_id is provided in the URL
 if (isset($_GET['job_id'])) {
     $job_id = $_GET['job_id'];
 
-
-
-
-    // Fetch company details based on the ID
+    // Fetch job details based on the job_id using a prepared statement
     $query = "SELECT * FROM all_jobs_list WHERE job_id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('i', $job_id);
+    $stmt->bind_param('i', $job_id); // Bind job_id as an integer
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // Check if the job was found
     if ($result->num_rows > 0) {
-        $job = $result->fetch_assoc();
+        $job = $result->fetch_assoc(); // Fetch job details as an associative array
     } else {
-        echo "Job not found!";
+        echo "Job not found!"; // Display message if job is not found
         exit;
     }
 } else {
-    echo "Invalid request!";
+    echo "Invalid request!"; // Display message if job_id is not provided
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +51,7 @@ if (isset($_GET['job_id'])) {
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Placement Hub</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

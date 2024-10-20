@@ -11,7 +11,7 @@
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">Placement Hub</a>
+      <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -38,7 +38,7 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password" required>
           </div>
-          <!-- <div class="text-center mb-1"><span>Don't have an account? </span><span><a href="placement_officer_register.php">Register Now!</a></span></div> -->
+          <div class="text-center mb-1"><span>Don't have an account? </span><span><a href="placement_officer_register.php">Register Now!</a></span></div>
           
           <button type="submit" class="btn btn-primary w-100 mt-3" id="loginBtn">Login</button>
         </form>

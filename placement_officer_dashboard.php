@@ -1,17 +1,21 @@
 <?php
-require 'db.php'; // Your database connection file
-session_start();
+require 'db.php'; // Include the database connection file
+session_start(); // Start the session to access session variables
+
+// Check if the user is logged in
 if ($_SESSION['logged_in']) {
 
+  // Get the company name from the session
   $company_name = $_SESSION['company_name'];
 
+  // Query to get all jobs posted by the company
   $query = "SELECT * FROM all_jobs_list WHERE company_name = ?";
   $stmt = $conn->prepare($query);
   $stmt->bind_param('s', $company_name);
   $stmt->execute();
   $result = $stmt->get_result();
-  
-  
+
+  // Query to get all applications submitted to the company
   $query = "SELECT * FROM job_applications WHERE company_name = ?";
   $stmt = $conn->prepare($query);
   $stmt->bind_param('s', $company_name);
@@ -24,6 +28,7 @@ if ($_SESSION['logged_in']) {
   // $company_count_result = $stmt->get_result();
   // $company_count = $company_count_result->fetch_assoc();
 
+  // Query to count the total jobs posted by the company
   $query = "SELECT COUNT(*) AS TotalJobs FROM all_jobs_list WHERE company_name = ?";
   $stmt = $conn->prepare($query);
   $stmt->bind_param('s', $company_name);
@@ -31,6 +36,7 @@ if ($_SESSION['logged_in']) {
   $job_count_result = $stmt->get_result();
   $job_count = $job_count_result->fetch_assoc();
   
+  // Query to count the total applications received by the company
   $query = "SELECT COUNT(*) AS TotalStudents FROM job_applications WHERE company_name = ?";
   $stmt = $conn->prepare($query);
   $stmt->bind_param('s', $company_name);
@@ -40,13 +46,10 @@ if ($_SESSION['logged_in']) {
 
 
 } else {
+  // If not logged in, redirect to the login page
   echo $_SESSION['logged_in'];
   header('location:placement_officer_login.php');
 }
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -106,7 +109,7 @@ if ($_SESSION['logged_in']) {
             <a class="nav-link" href="company_view_applications.php">Applications</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Jobs</a>
+            <a class="nav-link" href="company_all_jobs.php">Jobs</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="logout.php">Logout</a>
@@ -215,61 +218,6 @@ if ($_SESSION['logged_in']) {
 
 
 
-
-        <!-- View Applications -->
-        <!-- <div class="col-md-6">
-          <h4>View Applications</h4>
-          <table class="table table-bordered table-striped mt-4">
-            <thead class="thead-dark">
-              <tr>
-                <th>Sr. No</th>
-                <th>Student Full Name</th>
-                <th>Job Role</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody> -->
-              <?php
-              // if ($result1->num_rows > 0) {
-                // $srNo = 1; // Initialize serial number
-                // while ($job1 = $result1->fetch_assoc()) {
-                  ?>
-                  <?php
-                  // $job_id = $job1['job_id'];
-                  // $query = "SELECT job_role FROM all_jobs_list WHERE job_id = $job_id";
-                  // $stmt = $conn->prepare($query);
-                  // $stmt->execute();
-                  // $result2 = $stmt->get_result();
-                  // $job_role = $result2->fetch_assoc()
-                    ?>
-                  <!-- <tr> -->
-                    <!-- <td><?php //echo $srNo++; ?></td> Increment serial number -->
-                    <!-- <td><?php //echo $job1['first_name'] . " " . $job1['last_name']; ?></td> -->
-                    <!-- <td><?php //echo $job_role['job_role']; ?></td> -->
-                    <!-- <td><?php //echo $job1['status']; ?></td> -->
-                    <!-- <td> -->
-                      <!-- <form action="view_job.php">
-                        <button class="btn btn-info">View</button>
-                      </form>
-                    </td>
-                  </tr> -->
-                  <?php
-            //    }
-             // } else {
-                ?>
-                <!-- <tr>
-                  <td colspan="4" class="text-center">No jobs posted yet</td>
-                </tr> -->
-                <?php
-              //}
-              ?>
-            <!-- </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section> -->
 
   <!-- Bootstrap JS (Optional if needed for interactivity like collapse) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

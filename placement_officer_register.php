@@ -41,8 +41,9 @@
                         <label for="state" class="form-label">State</label>
                         <input type="text" class="form-control" id="state" name="state" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                    <button type="submit" class="btn btn-primary w-100 mt-2">Register</button>
                 </form>
+                <div class="text-center mt-2">Already Have an Account <a href="placement_officer_login.php">Login Now!</a>  </div>
             </div>
         </div>
     </div>

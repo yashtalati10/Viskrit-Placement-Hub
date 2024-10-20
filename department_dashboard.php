@@ -1,22 +1,23 @@
 <?php
-
+// Start the session to manage user authentication
 session_start();
-if ($_SESSION['logged_in'] == false) {
-  header("Location: index.php");
-}
-// if($_SESSION['logged_in'] == false) {
-//   header("Location: index.php");
-// }
-?>
 
-<?php
+// Check if the user is logged in; if not, redirect to the index page
+if ($_SESSION['logged_in'] == false) {
+    header("Location: index.php");
+}
+
+// Database connection file
 require 'db.php'; // Your database connection file
 
-// Fetch all students data from the all_students_list table
+// SQL query to fetch all students' data from the all_students_list table, 
+// joining with department_details to get department names
 $query = "SELECT a.id, a.collegeid, a.first_name, a.last_name, a.number_of_companies_applied, a.department FROM all_students_list as a join department_details as d on a.department = d.department";
+
+// Execute the query and store the result
 $result = $conn->query($query);
-$result1 = $conn->query($query);
-$row1 = $result1->fetch_assoc();
+$result1 = $conn->query($query); // Execute the same query again to fetch department name
+$row1 = $result1->fetch_assoc(); // Fetch the first row to get department name
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +50,7 @@ $row1 = $result1->fetch_assoc();
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">ACET Job Portal</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -85,19 +86,19 @@ $row1 = $result1->fetch_assoc();
                 <tbody>
 
         <?php
-        $srNo = 1;
-        while ($row = $result->fetch_assoc()) {
+        $srNo = 1; // Initialize serial number for table rows
+        while ($row = $result->fetch_assoc()) { // Loop through each student record
             ?>
                     <tr>
-                        <td><?php echo $srNo++; ?></td>
-                        <td><?php echo $row['collegeid']; ?></td>
-                        <td><?php echo $row['first_name']; ?></td>
-                        <td class="hide-mobile"><?php echo $row['last_name']; ?></td>
-                        <td class="hide-mobile"><?php echo $row['number_of_companies_applied']; ?></td>
+                        <td><?php echo $srNo++; ?></td> <!-- Display serial number -->
+                        <td><?php echo $row['collegeid']; ?></td> <!-- Display college ID -->
+                        <td><?php echo $row['first_name']; ?></td> <!-- Display first name -->
+                        <td><?php echo $row['last_name']; ?></td> <!-- Display last name -->
+                        <td><?php echo $row['number_of_companies_applied']; ?></td> <!-- Display number of companies applied -->
                         <!-- <td></td> -->
                         <td>
                             <button class="btn btn-primary view-details-btn" data-id="<?php echo $row['id']; ?>">View
-                                Details</button>
+                                Details</button> <!-- Button to view student details -->
                         </td>
                     </tr>
                     <?php

@@ -1,13 +1,15 @@
 <?php
-require 'db.php'; // Your database connection file
-session_start();
-if ($_SESSION['logged_in'] == false) {
-  header("Location: index.php");
-}
-// Fetch all students data from the `all_students_list` table
-$query = "SELECT id, company_name, number_of_students_applied, city, username  FROM all_companies_list";
-$result = $conn->query($query);
+require 'db.php'; // Include the database connection file
+session_start(); // Start the session to access session variables
 
+// Check if the user is logged in; if not, redirect to the login page
+if ($_SESSION['logged_in'] == false) {
+    header("Location: index.php");
+}
+
+// Fetch all companies data from the `all_companies_list` table
+$query = "SELECT id, company_name, number_of_students_applied, city, username FROM all_companies_list";
+$result = $conn->query($query); // Execute the query and get the result set
 
 ?>
 
@@ -26,7 +28,7 @@ $result = $conn->query($query);
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Placement Hub</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -76,16 +78,16 @@ $result = $conn->query($query);
             </thead>
             <tbody>
                 <?php
-                $srNo = 1;
-                while ($row = $result->fetch_assoc()) {
+                $srNo = 1; // Initialize serial number for each company
+                while ($row = $result->fetch_assoc()) { // Loop through each row of the result
                     ?>
                     <tr>
-                        <td><?php echo $srNo++; ?></td>
-                        <td><?php echo $row['company_name']; ?></td>
-                        <td><?php echo $row['number_of_students_applied']; ?></td>
+                        <td><?php echo $srNo++; ?></td> <!-- Display the serial number -->
+                        <td><?php echo $row['company_name']; ?></td> <!-- Display the company name -->
+                        <td><?php echo $row['number_of_students_applied']; ?></td> <!-- Display number of students applied -->
                         <td>
-                            <form method="GET" action="view_company_profile.php">
-                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                            <form method="GET" action="view_company_profile.php"> <!-- Form to view company profile -->
+                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>"> <!-- Hidden input to store company ID -->
                                 <button type="submit" class="btn btn-primary" data-id="<?php echo $row['id']; ?>">View</button>
                             </form>
                         </td>
@@ -124,68 +126,7 @@ $result = $conn->query($query);
         </div>
     </div>
 
-
-    <!-- Modal to Add Student -->
-    <!-- <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addStudentModalLabel">Add New Job Role</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addStudentForm">
-                        <div class="mb-3">
-                            <label for="company_name" class="form-label">Company Name</label>
-                            <input type="text" class="form-control" id="company_name" name="company_name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="mobile" class="form-label">Mobile</label>
-                            <input type="text" class="form-control" id="mobile" name="mobile" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="password" name="password" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="city" class="form-label">City:</label>
-                            <select name="city" id="city" class="form-control" required>
-                                <option value="">--Please choose an city--</option>
-                                <option value="Nagpur">Nagpur</option>
-                                <option value="Pune">Pune</option>
-                                <option value="Mumbai">Mumbai</option>
-                                <option value="Delhi">Delhi</option>
-                                <option value="EHyderabad">EHyderabad</option>
-                                <option value="Chennai">Chennai</option>
-                                <option value="Bengluru">Bengluru</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="state" class="form-label">State:</label>
-                            <select name="state" id="state" class="form-control" required>
-                                <option value="">--Please choose an state--</option>
-                                <option value="Maharashtra">Maharashtra</option>
-                                <option value="Delhi">Delhi</option>
-                                <option value="Telengana">Telengana</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Add Student</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
+<!-- Modal for adding a new company -->
     <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-labelledby="addStudentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -249,6 +190,7 @@ $result = $conn->query($query);
 
 
     <script type="text/javascript">
+        // Function to confirm deletion
         function confirmDelete() {
             return confirm("Are you sure you want to delete this company?");
         }
@@ -290,7 +232,7 @@ $result = $conn->query($query);
                 $('#delete-btn').data('id', companyId);
             });
 
-            // When 'Delete Student' button is clicked
+            // When 'Delete Company' button is clicked
             // $('#delete-btn').click(function () {
             //     var companyId = $(this).data('id'); // Get student ID
 

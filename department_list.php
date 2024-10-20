@@ -1,12 +1,15 @@
 <?php
-require 'db.php'; // Your database connection file
-session_start();
+require 'db.php'; // Include the database connection file
+session_start(); // Start a new session or resume the existing one
+
+// Check if the user is logged in; if not, redirect to the login page
 if ($_SESSION['logged_in'] == false) {
   header("Location: index.php");
 }
-// Fetch all students data from the all_students_list table
-$query = "SELECT * FROM department_details";
-$result = $conn->query($query);
+
+// Fetch all students data from the department_details table
+$query = "SELECT * FROM department_details"; // Query to select all department details
+$result = $conn->query($query); // Execute the query and store the result
 
 ?>
 
@@ -25,7 +28,7 @@ $result = $conn->query($query);
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Placement Hub</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -65,17 +68,17 @@ $result = $conn->query($query);
 
         <table class="table table-bordered">
             <thead>
-                <tr>
-                    <th>Sr. No</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Department</th>
-                    <th>Actions</th>
+            <tr>
+                    <th>Sr. No</th> <!-- Serial number -->
+                    <th>First Name</th> <!-- First name of the department admin -->
+                    <th>Last Name</th> <!-- Last name of the department admin -->
+                    <th>Department</th> <!-- Department name -->
+                    <th>Actions</th> <!-- Action buttons -->
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $srNo = 1;
+                $srNo = 1; // Initialize serial number
                 while ($row = $result->fetch_assoc()) {
                 ?>
                     <tr>

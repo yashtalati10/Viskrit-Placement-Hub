@@ -1,24 +1,37 @@
 <?php
+// Include the database connection file
 require 'db.php';
+
+// Start the session
 session_start();
+
+// Redirect to login page if not logged in
 if ($_SESSION['logged_in'] == false) {
-  header("Location: index.php");
+    header("Location: index.php");
 }
+
+// Check if username and job_id are set in the URL
 if (isset($_GET['username']) && isset($_GET['job_id'])) {
     $username = $_GET['username'];
     $job_id = $_GET['job_id'];
+
+    // Fetch job details based on job_id
     $result1 = mysqli_query($conn, "SELECT * FROM all_jobs_list where job_id='$job_id'");
     $job_role = $result1->fetch_assoc();
 } else {
+    // Display error and exit if parameters are missing
     echo "Invalid request!";
     exit;
 }
 
+// Fetch student details based on username
 $result = mysqli_query($conn, "SELECT * FROM all_students_list where username='$username'");
-if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        ?>
 
+// Check if there are any matching records
+if (mysqli_num_rows($result) > 0) {
+    // Loop through the result set
+    while ($row = mysqli_fetch_assoc($result)) {
+?>
         <!DOCTYPE html>
         <html lang="en">
 
@@ -75,10 +88,10 @@ if (mysqli_num_rows($result) > 0) {
                                 <a class="nav-link" href="company_view_applications.php">Applications</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Jobs</a>
+                                <a class="nav-link" href="company_all_jobs.php">Jobs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Logout</a>
+                                <a class="nav-link" href="logout.php">Logout</a>
                             </li>
                         </ul>
                     </div>
@@ -127,12 +140,12 @@ if (mysqli_num_rows($result) > 0) {
                     </div>
                 </div>
             </div>
-            <?php
+    <?php
     }
 }
-?>
+    ?>
     <!-- Add Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        </body>
 
-</html>
+        </html>

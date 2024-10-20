@@ -24,12 +24,6 @@
       margin-top: 20px;
     }
 
-    .clg-background {
-      background-image: url('Anjuman-new.jpg');
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-    }
 
     .hero {
       background-color: #f8f9fa;
@@ -94,7 +88,7 @@
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark1">
     <div class="container-fluid">
-      <a class="navbar-brand" href="./">Placement Hub</a>
+      <a class="navbar-brand" href="./">Viskrit Placement Hub</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -102,7 +96,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="aboutus.php">About Us</a>
+            <a class="nav-link" href="https://viskrit.com/about-us/">About Us</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="roadmap.php">Roadmap</a>
@@ -204,19 +198,19 @@
     <div class="carousel-inner">
       <!-- Slide 1 -->
       <div class="carousel-item active">
-        <img src="./image/image1.jpg" class="d-block w-100" alt="Slide 1">
+        <img src="" class="d-block w-100" alt="Slide 1">
         <div class="carousel-caption d-none d-md-block">
         </div>
       </div>
       <!-- Slide 2 -->
       <div class="carousel-item">
-        <img src="./image/image2.jpg" class="d-block w-100" alt="Slide 2">
+        <img src="" class="d-block w-100" alt="Slide 2">
         <div class="carousel-caption d-none d-md-block">
         </div>
       </div>
       <!-- Slide 3 -->
       <div class="carousel-item">
-        <img src="./image/image3.jpg" class="d-block w-100" alt="Slide 3">
+        <img src="" class="d-block w-100" alt="Slide 3">
         <div class="carousel-caption d-none d-md-block">
         </div>
       </div>

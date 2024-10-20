@@ -1,18 +1,27 @@
 <?php
-require 'db.php';
-session_start();
+require 'db.php'; // Include the database connection file
+session_start(); // Start the session
+
+// Check if the user is logged in; if not, redirect to the index page
 if ($_SESSION['logged_in'] == false) {
     header("Location: index.php");
+    exit; // Ensure no further code is executed after redirect
 }
-$username = $_SESSION['username'];
-$result = mysqli_query($conn, "SELECT * FROM all_students_list where username='$username'");
+
+$username = $_SESSION['username']; // Get the logged-in username
+
+// Fetch student information from the database for the logged-in user
+$result = mysqli_query($conn, "SELECT * FROM all_students_list WHERE username='$username'");
+
+// Check if any result is returned
 if (mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_array($result); // Fetch the student's details
+
+    // Determine if the resume upload button should be disabled
     if ($row['resume_file_path'] == '') {
-        $buttonDisabled = true;
-    }
-    if ($row['resume_file_path'] != '') {
-        $buttonDisabled = false;
+        $buttonDisabled = true; // No resume uploaded
+    } else {
+        $buttonDisabled = false; // Resume is uploaded
     }
 }
 ?>
@@ -80,7 +89,7 @@ if (mysqli_num_rows($result) > 0) {
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark nav-bar-color">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Placement Hub</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

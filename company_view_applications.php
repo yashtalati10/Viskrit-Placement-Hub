@@ -1,36 +1,45 @@
 <?php
-require 'db.php'; // Your database connection file
+// Include the database connection file
+require 'db.php';
+
+// Start the session
 session_start();
+
+// Check if the user is logged in, if not, redirect to the login page
 if ($_SESSION['logged_in'] == false) {
-  header("Location: index.php");
+    header("Location: index.php");
 }
 
+// If the user is logged in, retrieve the company name from the session
 if ($_SESSION['logged_in']) {
-
     $company_name = $_SESSION['company_name'];
 
+
+    // Query to fetch all jobs posted by the company from the database
     $query = "SELECT * FROM all_jobs_list WHERE company_name = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $company_name);
+    $stmt->bind_param('s', $company_name); // Bind the company name to the query
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $stmt->get_result(); // Execute the query and store the result
 
 
+    // Query to fetch all job applications received for the company
     $query = "SELECT * FROM job_applications WHERE company_name = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $company_name);
+    $stmt->bind_param('s', $company_name); // Bind the company name to the query
     $stmt->execute();
-    $result1 = $stmt->get_result();
+    $result1 = $stmt->get_result(); // Execute the query and store the result
+
 
 } else {
+
+    // If the session is not valid, redirect to the login page
     echo $_SESSION['logged_in'];
     header('location:placement_officer_login.php');
+
 }
-
-
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -124,6 +133,7 @@ if ($_SESSION['logged_in']) {
                                     <?php
                                     if ($result->num_rows > 0) {
                                         $srNo = 1; // Initialize serial number
+                                        // Loop through all the jobs
                                         while ($job_list = $result->fetch_assoc()) {
                                             ?>
                                             <tr>
@@ -141,6 +151,7 @@ if ($_SESSION['logged_in']) {
                                             <?php
                                         }
                                     } else {
+                                        // Display message if no jobs are posted
                                         ?>
                                         <tr>
                                             <td colspan="4" class="text-center">No jobs posted yet</td>

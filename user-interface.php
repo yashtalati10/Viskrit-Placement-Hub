@@ -90,7 +90,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark1">
     <div class="container-fluid">
       <!-- Website name or logo on the left side of the navbar -->
-      <a class="navbar-brand" href="./">Placement Hub</a>
+      <a class="navbar-brand" href="./">Viskrit Placement Hub</a>
 
       <!-- Toggler for mobile view -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

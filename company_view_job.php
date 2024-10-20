@@ -1,45 +1,59 @@
 <?php
-require 'db.php'; // Your database connection file
+// Include the database connection file
+require 'db.php';
+
+// Start the session to manage session variables
 session_start();
+
+// Check if the user is logged in
 if ($_SESSION['logged_in']) {
+
+    // Check if the 'job_id' parameter is passed in the URL
     if (isset($_GET['job_id'])) {
 
+        // Get the 'job_id' from the URL
         $job_id = $_GET['job_id'];
 
-        // Fetch company details based on the ID
+        // Fetch company details for the given job_id
         $query = "SELECT * FROM all_jobs_list WHERE job_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('i', $job_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
+        // If a matching job is found, save the company details in session variables
         if ($result->num_rows > 0) {
             $job = $result->fetch_assoc();
             $_SESSION['company_name'] = $job['company_name'];
             $_SESSION['job_id'] = $job['job_id'];
         } else {
+            // If no job is found for the given job_id, display an error message
             echo "Job not found!";
             exit;
         }
 
+        // Fetch all job applications for the given job_id
         $query = "SELECT * FROM job_applications WHERE job_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('i', $job_id);
         $stmt->execute();
         $result1 = $stmt->get_result();
 
+        // Fetch all 'Accepted' applications for the given job_id
         $query = "SELECT * FROM job_applications WHERE job_id = ? AND status = 'Accepted'";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('i', $job_id);
         $stmt->execute();
         $result2 = $stmt->get_result();
 
+        // Fetch all 'Rejected' applications for the given job_id
         $query = "SELECT * FROM job_applications WHERE job_id = ? AND status = 'Rejected'";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('i', $job_id);
         $stmt->execute();
         $result3 = $stmt->get_result();
 
+        // Get the count of 'Accepted' applications for the job
         $query = "SELECT COUNT(*) AS TotalRows FROM job_applications WHERE job_id = ? AND status = 'Accepted'";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('i', $job_id);
@@ -47,18 +61,20 @@ if ($_SESSION['logged_in']) {
         $selected_students_result = $stmt->get_result();
         $selected_students = $selected_students_result->fetch_assoc();
 
+        // Get the count of 'Rejected' applications for the job
         $query = "SELECT COUNT(*) AS TotalRows FROM job_applications WHERE job_id = ? AND status = 'Rejected'";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('i', $job_id);
         $stmt->execute();
         $rejected_students_result = $stmt->get_result();
         $rejected_students = $rejected_students_result->fetch_assoc();
-
     } else {
+        // If no job_id is passed, display an error message
         echo "Invalid request!";
         exit;
     }
 } else {
+    // If the user is not logged in, redirect to the login page
     header('location:placement_officer_login.php');
 }
 ?>
@@ -126,21 +142,22 @@ if ($_SESSION['logged_in']) {
                         <a class="nav-link active" aria-current="page" href="placement_officer_dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#company-dashboard">Applications</a>
+                        <a class="nav-link" href="company_view_applications.php">Applications</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Jobs</a>
+                        <a class="nav-link" href="company_all_jobs.php">Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <a class="nav-link" href="logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
+<!-- Main container for job details -->
     <div class="container mt-5">
         <h1 class="text-center mb-4"><?php echo $job['job_role']; ?></h1>
+        <!-- Job Details Card -->
         <div class="card card-custom shadow-sm">
             <div class="card-header bg-primary text-white">
                 Job Details
@@ -154,7 +171,7 @@ if ($_SESSION['logged_in']) {
             </div>
         </div>
     </div>
-
+<!-- Container for displaying selected and rejected students summary -->
     <div class="container mt-5">
         <div class="row">
             <!-- Card 1: Selected Students -->
@@ -201,7 +218,8 @@ if ($_SESSION['logged_in']) {
             <tbody>
                 <?php
                 if ($result1->num_rows > 0) {
-                    $srNo = 1; 
+                    $srNo = 1; // Initialize serial number
+                    // Loop through each applied student record
                     while ($job1 = $result1->fetch_assoc()) { ?>
                         <tr>
                             <td><?php echo $srNo++; ?></td>
@@ -216,7 +234,7 @@ if ($_SESSION['logged_in']) {
                                 </form>
                             </td>
                         </tr>
-                <?php }
+                    <?php }
                 } else { ?>
                     <tr>
                         <td colspan="5" class="text-center">No students applied yet!</td>
@@ -241,7 +259,8 @@ if ($_SESSION['logged_in']) {
             <tbody>
                 <?php
                 if ($result2->num_rows > 0) {
-                    $srNo = 1;
+                    $srNo = 1; // Initialize serial number
+                    // Loop through each Selected student record
                     while ($job2 = $result2->fetch_assoc()) { ?>
                         <tr>
                             <td><?php echo $srNo++; ?></td>
@@ -255,7 +274,7 @@ if ($_SESSION['logged_in']) {
                                 </form>
                             </td>
                         </tr>
-                <?php }
+                    <?php }
                 } else { ?>
                     <tr>
                         <td colspan="4" class="text-center">No students accepted yet!</td>
@@ -280,7 +299,8 @@ if ($_SESSION['logged_in']) {
             <tbody>
                 <?php
                 if ($result3->num_rows > 0) {
-                    $srNo = 1;
+                    $srNo = 1; // Initialize serial number
+                    // Loop through each rejected student record
                     while ($job3 = $result3->fetch_assoc()) { ?>
                         <tr>
                             <td><?php echo $srNo++; ?></td>
@@ -294,7 +314,7 @@ if ($_SESSION['logged_in']) {
                                 </form>
                             </td>
                         </tr>
-                <?php }
+                    <?php }
                 } else { ?>
                     <tr>
                         <td colspan="4" class="text-center">No students rejected yet!</td>

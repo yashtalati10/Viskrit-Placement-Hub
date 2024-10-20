@@ -1,9 +1,13 @@
 <?php
+// Start the session to check if the user is logged in
 session_start();
 require 'db.php'; // Your database connection file
+
+// Redirect user to login page if not logged in
 if ($_SESSION['logged_in'] == false) {
     header("Location: index.php");
-  }
+}
+
 // Fetch all students data from the `all_students_list` table
 $query = "SELECT id, collegeid, first_name, last_name, number_of_companies_applied, department FROM all_students_list";
 $result = $conn->query($query);
@@ -20,15 +24,17 @@ $result = $conn->query($query);
     <!-- Add Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        th{
+        th {
             cursor: pointer;
         }
-        .search-bar{
+
+        .search-bar {
             border-radius: 12px;
             border: 1px solid gray;
             /* margin: 2rem;  */
-            padding: 0.5rem; 
+            padding: 0.5rem;
         }
+
         @media (max-width: 767.98px) {
             .hide-mobile {
                 display: none;
@@ -41,7 +47,7 @@ $result = $conn->query($query);
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">ACET Job Portal</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -73,12 +79,13 @@ $result = $conn->query($query);
 
     <div class="container mt-5">
         <h2 class="text-center ">All Students List </h2>
+        <!-- Search bar and Add Student button -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <input class="me-2 search-bar" id="tableSearch" type="text" placeholder="Search...">
             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button>
         </div>
         <h2 class="text-center"></h2>
-
+        <!-- Table displaying student data -->
         <table class="table table-bordered">
             <thead>
                 <tr class="bg-secondary">
@@ -93,9 +100,10 @@ $result = $conn->query($query);
             </thead>
             <tbody>
                 <?php
+                // Loop through the result set and display each student's data
                 $srNo = 1;
                 while ($row = $result->fetch_assoc()) {
-                    ?>
+                ?>
                     <tr>
                         <td><?php echo $srNo++; ?></td>
                         <td><?php echo $row['collegeid']; ?></td>
@@ -104,11 +112,12 @@ $result = $conn->query($query);
                         <td class="hide-mobile"><?php echo $row['number_of_companies_applied']; ?></td>
                         <td class="hide-mobile"><?php echo $row['department']; ?></td>
                         <td>
+                            <!-- Button to trigger View Details modal -->
                             <button class="btn btn-primary view-details-btn" data-id="<?php echo $row['id']; ?>">View
                                 Details</button>
                         </td>
                     </tr>
-                    <?php
+                <?php
                 }
                 ?>
             </tbody>
@@ -214,9 +223,9 @@ $result = $conn->query($query);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // When 'View Details' button is clicked
-            $('.view-details-btn').click(function () {
+            $('.view-details-btn').click(function() {
                 var studentId = $(this).data('id'); // Get student ID from button data attribute
 
                 // Make an AJAX request to fetch additional student details
@@ -226,7 +235,7 @@ $result = $conn->query($query);
                     data: {
                         id: studentId
                     },
-                    success: function (data) {
+                    success: function(data) {
                         // Insert student details into the modal
                         $('#student-details').html(data);
 
@@ -240,7 +249,7 @@ $result = $conn->query($query);
             });
 
             // When 'Delete Student' button is clicked
-            $('#delete-btn').click(function () {
+            $('#delete-btn').click(function() {
                 var studentId = $(this).data('id'); // Get student ID
 
                 if (confirm('Are you sure you want to delete this student?')) {
@@ -251,7 +260,7 @@ $result = $conn->query($query);
                         data: {
                             id: studentId
                         },
-                        success: function (response) {
+                        success: function(response) {
                             alert(response); // Show delete message
                             location.reload(); // Reload the page to reflect changes
                         }
@@ -259,7 +268,7 @@ $result = $conn->query($query);
                 }
             });
             // Add student form submission
-            $('#addStudentForm').submit(function (e) {
+            $('#addStudentForm').submit(function(e) {
 
                 e.preventDefault();
                 // Disable the submit button
@@ -269,7 +278,7 @@ $result = $conn->query($query);
                     url: 'add_student.php',
                     type: 'POST',
                     data: $(this).serialize(),
-                    success: function (response) {
+                    success: function(response) {
                         alert(response); // Show success message
                         location.reload(); // Reload the page to show the new student
                     }
@@ -278,34 +287,45 @@ $result = $conn->query($query);
         });
     </script>
     <script>
-        $(document).ready(function () {
-            // Sort functionality
-            $('th').click(function () {
-                var table = $(this).parents('table').eq(0)
-                var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
-                this.asc = !this.asc
-                if (!this.asc) { rows = rows.reverse() }
-                for (var i = 0; i < rows.length; i++) { table.append(rows[i]) }
-            })
+        $(document).ready(function() {
+            // Sort functionality for the table columns
+            $('th').click(function() {
+                var table = $(this).parents('table').eq(0); // Get the table element
+                var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index())); // Sort rows based on the clicked column
+                this.asc = !this.asc; // Toggle sorting order (ascending/descending)
+                if (!this.asc) {
+                    rows = rows.reverse(); // Reverse rows if descending
+                }
+                for (var i = 0; i < rows.length; i++) {
+                    table.append(rows[i]); // Append sorted rows back to the table
+                }
+            });
 
+            // Function to compare two table rows based on column value
             function comparer(index) {
-                return function (a, b) {
-                    var valA = getCellValue(a, index), valB = getCellValue(b, index)
-                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+                return function(a, b) {
+                    var valA = getCellValue(a, index), // Get value of the clicked column for row 'a'
+                        valB = getCellValue(b, index); // Get value of the clicked column for row 'b'
+                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB); // Numeric or alphabetic comparison
                 }
             }
 
-            function getCellValue(row, index) {
-                return $(row).children('td').eq(index).text()
-            }
 
-            // Search functionality
-            $("#tableSearch").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("table tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            // Function to get the cell value of a row at a specific column index
+            function getCellValue(row, index) {
+                return $(row).children('td').eq(index).text(); // Get the text content of the cell
+            }
+            
+            
+            // Search functionality to filter rows based on input
+            $("#tableSearch").on("keyup", function() {
+                var value = $(this).val().toLowerCase(); // Get the value entered in the search bar
+                $("table tbody tr").filter(function() {
+                    // Toggle visibility of rows based on whether the row text matches the search value
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
+            
         });
     </script>
 </body>

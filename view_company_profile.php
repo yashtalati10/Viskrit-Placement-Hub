@@ -1,43 +1,52 @@
 <?php
-require 'db.php'; // Your database connection file
+// Include the database connection file
+require 'db.php'; 
+
+// Start the session
 session_start();
+
+// Redirect to the login page if the user is not logged in
 if ($_SESSION['logged_in'] == false) {
-  header("Location: index.php");
+    header("Location: index.php");
 }
+
+// Check if company ID is provided in the URL
 if (isset($_GET['id'])) {
     $company_id = $_GET['id'];
 
-    // Fetch company details based on the ID
+    // Fetch company details based on the company_id using a prepared statement
     $query = "SELECT * FROM all_companies_list WHERE id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('i', $company_id);
+    $stmt->bind_param('i', $company_id); // Bind company_id as an integer
     $stmt->execute();
     $result = $stmt->get_result();
 
-
-
-
+    // Check if the company was found
     if ($result->num_rows > 0) {
-        $company = $result->fetch_assoc();
-        $company_name1 = $company['company_name'];
+        $company = $result->fetch_assoc(); // Fetch company details as an associative array
+        $company_name1 = $company['company_name']; // Store the company name
+
+        // Fetch job listings associated with the company
         $query1 = "SELECT * FROM all_jobs_list WHERE company_name = ?";
         $stmt1 = $conn->prepare($query1);
-        $stmt1->bind_param('s', $company_name1);
+        $stmt1->bind_param('s', $company_name1); // Bind company name as a string
         $stmt1->execute();
-        $result1 = $stmt1->get_result();
-        $_SESSION['company_name'] = $company['company_name'];
-        $_SESSION['c_id'] = $company['id'];
-        
+        $result1 = $stmt1->get_result(); // Get the result of job listings
+
+        // Store company details in session variables
+        $_SESSION['company_name'] = $company['company_name']; 
+        $_SESSION['c_id'] = $company['id']; 
         
     } else {
-        echo "Company not found!";
+        echo "Company not found!"; // Display message if company is not found
         exit;
     }
 } else {
-    echo "Invalid request!";
+    echo "Invalid request!"; // Display message if company ID is not provided
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +62,7 @@ if (isset($_GET['id'])) {
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Placement Hub</a>
+            <a class="navbar-brand" href="index.php">Viskrit Placement Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
